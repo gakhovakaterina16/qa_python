@@ -35,14 +35,15 @@ class TestBooksCollector:
         collector.set_book_genre('Чапаев и Пустота', 'Фантастика')
 
         # проверяем, что установился нужный жанр
-        assert collector.books_genre['Чапаев и Пустота'] == 'Фантастика'
+        assert collector.get_book_genre('Чапаев и Пустота') == 'Фантастика'
 
     def test_get_book_genre_from_one_book(self):
         # создаем экземпляр (объект) класса BooksCollector
         collector = BooksCollector()
 
-        # создаём словарь с двумя книгами
-        collector.books_genre = {'Чапаев и Пустота': '', 'Бойцовский клуб': ''}
+        # добавляем две книги
+        collector.add_new_book('Чапаев и Пустота')
+        collector.add_new_book('Бойцовский клуб')
 
         # устанавливаем добавленной книге жанр
         collector.set_book_genre('Чапаев и Пустота', 'Фантастика')
@@ -70,10 +71,10 @@ class TestBooksCollector:
         collector = BooksCollector()
 
         # создаём словарь с двумя книгами
-        collector.books_genre = {
-            'Чапаев и Пустота': 'Фантастика',
-            'Бойцовский клуб': 'Детективы'
-        }
+        collector.add_new_book('Чапаев и Пустота')
+        collector.add_new_book('Бойцовский клуб')
+        collector.set_book_genre('Чапаев и Пустота', 'Фантастика')
+        collector.set_book_genre('Бойцовский клуб', 'Детективы')
 
         # проверяем, что метод get_books_genre возвращает словарь из двух книг
         assert collector.get_books_genre() == {'Чапаев и Пустота': 'Фантастика', 'Бойцовский клуб': 'Детективы'}
@@ -106,7 +107,7 @@ class TestBooksCollector:
         collector.add_book_in_favorites('Чапаев и Пустота')
 
         # проверяем наличие добавленной книги в избранном
-        assert collector.favorites == ['Чапаев и Пустота']
+        assert collector.get_list_of_favorites_books() == ['Чапаев и Пустота']
 
     def test_delete_book_from_favorites_1_removing(self):
         # создаем экземпляр (объект) класса BooksCollector
@@ -119,7 +120,7 @@ class TestBooksCollector:
         collector.delete_book_from_favorites('Бойцовский клуб')
 
         # проверяем, что осталось 3 книги в избранном
-        assert collector.favorites == ['12 правил', 'Шахматы', 'Чапаев и Пустота']
+        assert collector.get_list_of_favorites_books() == ['12 правил', 'Шахматы', 'Чапаев и Пустота']
 
     def test_get_list_of_favorites_books(self):
         # создаем экземпляр (объект) класса BooksCollector
@@ -139,13 +140,5 @@ class TestBooksCollector:
         # добавляем книгу
         collector.add_new_book(book)
 
-        # проверяем, что добавилось именно две
-        # словарь books_genre, который нам возвращает метод get_books_genre, имеет длину 2
+        # проверяем, что она добавиласт
         assert collector.get_book_genre(book) == ''
-
-
-
-
-
-
-
